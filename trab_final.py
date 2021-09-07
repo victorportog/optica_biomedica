@@ -25,14 +25,15 @@ cfg['Domain']['Media'].append({'mua':0.045, 'mus':35.65, 'g':0.9, 'n':1.37})
 
 # blood vessel
 cfg['Shapes'].append({'Cylinder':{'Tag':4, 'C0':[50,0,50], 'C1':[50,100,50], 'R':10}})
-cfg['Domain']['Media'].append({'mua':1.657E1, 'mus':37.59, 'g':0.9, 'n':1.37})
+cfg['Domain']['Media'].append({'mua':1.657, 'mus':37.59, 'g':0.9, 'n':1.37})
 
 print(cfg)
 
+#running the simulation (and repeating 3 times)
 data_mch, data_mc2 = mcx.run(cfg=cfg, flag='--repeat 3', mcxbin=mcx_local)
 #print(data_mc2.shape)
 
-#plotting the fluence 2D map (slicing at y=50)
+#plotting the fluence rate 2D map (slicing at y=50)
 plt.figure()
 cmap = mpl.cm.jet
 plt.imshow(np.squeeze(np.log10(data_mc2[:,50,:])).T, cmap=cmap)
@@ -40,15 +41,16 @@ plt.xlabel('x [10$^{-2}$mm]')
 plt.ylabel('z [10$^{-2}$mm]')
 plt.colorbar(cmap=cmap, orientation='vertical', label='log(Fluence Rate [1/mm$^2$s])')
 
+#plotting the fluence rate dependence on depth at the center
 plt.figure()
 z_range = np.arange(10,100,1)
 plt.plot(np.squeeze(np.log10(data_mc2[50,50,:])), '.', color='g')
-plt.vlines(10,6.5,12.5)
-plt.vlines(15,6.5,12.5)
-plt.vlines(40,6.5,12.5)
-plt.vlines(50,6.5,12.5, linestyles='dashed')
-plt.vlines(60,6.5,12.5)
-plt.axis([0,100,6.5,12.5])
+plt.vlines(10,7.5,12.5)
+plt.vlines(15,7.5,12.5)
+plt.vlines(40,7.5,12.5)
+plt.vlines(50,7.5,12.5, linestyles='dashed')
+plt.vlines(60,7.5,12.5)
+plt.axis([0,100,7.5,12.5])
 plt.xlabel('z [10$^{-2}$mm]')
 plt.ylabel('log(Fluence Rate [1/mm$^2$s])')
 
